@@ -98,32 +98,45 @@ class CafeKioskTest {
     }
     @Test
     void createOrder() {
+        //given
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
 
         cafeKiosk.add(americano);
+
+        //when
         Order order = cafeKiosk.createOrder();
+
+        //then
         assertThat(order.getBeverages()).hasSize(1);
         assertThat(order.getBeverages().get(0).getName()).isEqualTo("아메리카노");
 
     }
     @Test
     void createOrderWithCurrentTime() {
+        //given
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
 
         cafeKiosk.add(americano);
+
+        //when
         Order order = cafeKiosk.createOrder(LocalDateTime.of(2023,6,29,10,0));
+
+        //then
         assertThat(order.getBeverages()).hasSize(1);
         assertThat(order.getBeverages().get(0).getName()).isEqualTo("아메리카노");
 
     }
     @Test
     void createOrderOutsideOpenTime() {
+        //given
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
 
         cafeKiosk.add(americano);
+
+        //when then
         assertThatThrownBy(()->cafeKiosk.createOrder(LocalDateTime.of(2023,6,29,9,59)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("주문 시간이 아닙니다. 관리자에게 문의하세요.");
