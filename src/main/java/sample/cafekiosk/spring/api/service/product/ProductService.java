@@ -18,7 +18,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-
+    // 동시성 이슈
+    // UUID 활용
     public ProductResponse createProduct(ProductCreateRequest request) {
         // productNumber
         // 001 002 003 004
@@ -27,13 +28,10 @@ public class ProductService {
 
         String nextProductNumber = createNextProductNumber();
 
-        return ProductResponse.builder()
-                .productNumber(nextProductNumber)
-                .type(request.getType())
-                .sellingStatus(request.getSellingStatus())
-                .name(request.getName())
-                .price(request.getPrice())
-                .build();
+        Product product = request.toEntity(nextProductNumber);
+        Product savedProduct = productRepository.save(product);
+
+        return ProductResponse.of(savedProduct);
 
     }
     private String createNextProductNumber(){
