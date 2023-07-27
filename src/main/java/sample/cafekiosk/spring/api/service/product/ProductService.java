@@ -2,6 +2,7 @@ package sample.cafekiosk.spring.api.service.product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.Product;
@@ -12,6 +13,15 @@ import sample.cafekiosk.spring.domain.product.ProductType;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * readOnly = true : 읽기전용
+ * CRUD 에서 CUD 동작 X / only Read
+ * JPA : CUD 스냅샷 저장, 변경감지 X (성능 향상)
+ *
+ * CQRS - Command(Transactional) / Query(Transactional(readOnly = true))
+ *
+ */
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class ProductService {
@@ -20,6 +30,7 @@ public class ProductService {
 
     // 동시성 이슈
     // UUID 활용
+    @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
         // productNumber
         // 001 002 003 004
@@ -45,7 +56,6 @@ public class ProductService {
 
         return String.format("%03d",nextProductNumberInt);
     }
-
 
 
     public List<ProductResponse> getSellingProducts(){
