@@ -77,7 +77,7 @@ class OrderStatisticsServiceTest {
         Order order3 = createPaymentCompletedOrder(LocalDateTime.of(2023,3,5,23,59,59), products);
         Order order4 = createPaymentCompletedOrder(LocalDateTime.of(2023,3,6,0,0), products);
 
-        // stubbing (mock객체에다가 우리가 원하는 행위를 정의하는것)
+        // stubbing (mock 객체에다가 우리가 원하는 행위를 정의하는것)
         when(mailSendClient.sendEmail(any(String.class),any(String.class),any(String.class),any(String.class)))
                 .thenReturn(true);
 
