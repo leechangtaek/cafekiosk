@@ -3,10 +3,7 @@ package sample.cafekiosk.spring.api.service.mail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistory;
@@ -42,14 +39,20 @@ class MailServiceTest {
         //@InjectMocks 어노테이션으로 대체할 수 있음.
 //        MailService mailService = new MailService(mailSendClient, mailSendHistoryRepository);
 
-        when(mailSendClient.sendEmail(anyString(),anyString(),anyString(),anyString()))
-                .thenReturn(true);
+//        when(mailSendClient.sendEmail(anyString(),anyString(),anyString(),anyString()))
+//                .thenReturn(true);
+
+        //위에 코드가 given 자리인데 이름이 when 이여서 나온게 BDDMockito 임(이름만 바뀌고 기능은 동일함)
+        BDDMockito.given(mailSendClient.sendEmail((anyString(),anyString(),anyString(),anyString()))
+                .willReturn(true);
 
         //@spy 일때 when 을 사용할 수 없어서 doReturn 을 사용함
 //        doReturn(true)
 //                .when(mailSendClient)
 //                .sendEmail(anyString(),anyString(),anyString(),anyString());
 
+        BDDMockito.given(mailSendClient.sendEmail((anyString(),anyString(),anyString(),anyString()))
+                .willReturn(true);
 
         //when
         boolean result = mailService.sendMail("", "", "", "");
