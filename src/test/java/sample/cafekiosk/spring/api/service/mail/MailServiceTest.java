@@ -43,16 +43,13 @@ class MailServiceTest {
 //                .thenReturn(true);
 
         //위에 코드가 given 자리인데 이름이 when 이여서 나온게 BDDMockito 임(이름만 바뀌고 기능은 동일함)
-        BDDMockito.given(mailSendClient.sendEmail((anyString(),anyString(),anyString(),anyString()))
+        BDDMockito.given(mailSendClient.sendEmail(anyString(),anyString(),anyString(),anyString()))
                 .willReturn(true);
 
         //@spy 일때 when 을 사용할 수 없어서 doReturn 을 사용함
 //        doReturn(true)
 //                .when(mailSendClient)
 //                .sendEmail(anyString(),anyString(),anyString(),anyString());
-
-        BDDMockito.given(mailSendClient.sendEmail((anyString(),anyString(),anyString(),anyString()))
-                .willReturn(true);
 
         //when
         boolean result = mailService.sendMail("", "", "", "");
