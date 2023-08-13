@@ -48,9 +48,23 @@ class OrderServiceTest {
 
     @AfterEach
     void tearDown() {
+        /**
+         * 관계성을 생각 후 순서를 정해야 한다.
+         */
         orderProductRepository.deleteAllInBatch();
         orderRepository.deleteAllInBatch();
         productRepository.deleteAllInBatch();
+
+        /**
+         * deleteAll 은 order 테이블을 select 한 후 속해있는 orderProduct 를 select 한 후
+         * orderProduct 를 지우고 order 데이터를 지운다.
+         * orderProduct 에 order 가 정의되어 있기 때문에.
+         */
+        orderRepository.deleteAll();
+        productRepository.deleteAll();
+
+
+
         stockRepository.deleteAllInBatch();
     }
 
