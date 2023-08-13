@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import sample.cafekiosk.spring.ControllerTestSupport;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.ProductService;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
@@ -27,17 +28,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = ProductController.class)
-class ProductControllerTest {
+//@WebMvcTest(controllers = ProductController.class)
+class ProductControllerTest extends ControllerTestSupport {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @MockBean
-    private ProductService productService;
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Autowired
+//    private ObjectMapper objectMapper;
+//
+//    @MockBean
+//    private ProductService productService;
 
     @DisplayName("신규 상품을 등록한다.")
     @Test
@@ -133,13 +134,14 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.data").isEmpty())
         ;
     }
-    @DisplayName("신규 상품을 등록할 때 상품 이름은 필수값이다.")
+    @DisplayName("신규 상품을 등록할 때 상품 가격은 양수여야 합니다.")
     @Test
     void createProductWithZeroPrice() throws Exception {
         //given
         ProductCreateRequest request = ProductCreateRequest.builder()
                 .type(ProductType.HANDMADE)
                 .sellingStatus(ProductSellingStatus.SELLING)
+                .name("아메리카노")
                 .price(0)
                 .build();
 
